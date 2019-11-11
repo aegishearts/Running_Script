@@ -5,8 +5,8 @@ import requests, re
 ########################################################
 requests.packages.urllib3.disable_warnings()
 
-IHMS_SW_List_API = 'https://melon.cdnetworks.com/api/ihms/get_ihms_node.jsp'
-NIDB_SW_List_API = 'https://melon.cdnetworks.com/network/nidb/api/get_nidb_switch_list.jsp'
+IHMS_SW_List_API = 'XXXXXX.jsp'			# Location database API
+NIDB_SW_List_API = 'XXXXXX.jsp'			# Switch list API
 
 ALL_Regex = re.compile(r'[bB][bB]+\d*-[a-zA-Z]+\d+-[a-zA-Z]+\d*|[aA][cC][cC]+\d+-[a-zA-Z]+\d+-[a-zA-Z]+\d*|[aA][gG][gG]+\d+-[a-zA-Z]+\d+-[a-zA-Z]+\d*|[rR][mM][cC]+\d+-[a-zA-Z]+\d+-[a-zA-Z]+\d*')
 BB1_Regex = re.compile(r'[bB][bB]+[0-1]*-[a-zA-Z]+\d+-[a-zA-Z]+\d*')
@@ -41,8 +41,8 @@ Regex = {
 	'ETC':ETC_Regex,
 }
 
-Office_POP_Code = ['10047','10048','10049','10437','10453','10454','10458']
-Office_POP_List = ['kr1-sel','qkr-sel','uk2-lhr','crg3-sjc']
+Office_POP_Code = ['xxx','xxx']				# Exception list
+Office_POP_List = ['xxx','xxx']				# Exception list
 ########################################################
 
 def Search_Host_NIDB(Hostname):
@@ -85,13 +85,11 @@ def Search_Device_by_Type(Type):
 		Code = i.split(':')[1]
 		POP = i.split(':')[2]
 		if Code in Office_POP_Code:
-                	print('Ignore Office/CNC/BCM network device')
+                	print('Ignore CNC Office BCM network device')
 		elif POP in Office_POP_List:
-                	print('Ignore Office/CNC/BCM network device')
-		elif 'rmc1-tat1-bom' in i:
-			pass
-            	else:
+                	print('Ignore CNC Office BCM network device')
+        else:
 			host = Regex[Type]
-		        if host.match(i):
-			        List.append(str(host.findall(i)[0]))
+		    if host.match(i):
+			    List.append(str(host.findall(i)[0]))
 	return List

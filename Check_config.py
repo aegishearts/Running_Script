@@ -7,15 +7,15 @@ import re
 
 ########################################################
 CMD_Port_Description_Check = {
-        'cisco-nx':'',
-        'cisco':'',
-        'ubiquoss':'',
-        'huawei':'',
+        'cisco-nx':'show interface description | include BDR | grep ',
+        'cisco':'show interface description | include BDR ',
+        'ubiquoss':'show interface description | include BDR ',
+        'huawei':'display interface description | no-more | include BDR | include ',
         'juniper':'show interface description | no-more | match BDR | match ',
-        'foundry':'',
-        'brocade_fabric':'',
-        'dell':'',
-        'arista':'',
+        'foundry':'show interface brief',
+        'brocade_fabric':'show interface description | nomore | include BDR | include ',
+        'dell':'show interface description | no-more | grep BDR | grep ',
+        'arista':'show interface description | no-more | include BDR ',
 }
 CMD_Port_IP_Check = {
 	'juniper':'show configuration interfaces ',
@@ -27,14 +27,14 @@ CMD_BGP_DenyAll_Policy = {
         'juniper':'show configuration policy-options | display set | match DENY-ANY',
 }
 CMD_Syslog_Config = {
-        'juniper':'show configuration system syslog | display set | no-more',
+	'juniper':'show configuration system syslog | display set | no-more',
 	'foundry':'show run | include logging',
 	'cisco':'show run | include logging',
 	'cisco-nx':'show run | include logging | no-more',
 	'ubiquoss':'show run | include logging',
 	'dell':'show run | grep logging',
 	'arista':'show run | include logging',
-        'brocade_fabric':'show run | include logging',
+	'brocade_fabric':'show run | include logging',
 	'huawei':'display current-configuration | include info-center',
 }
 Regex_IPv4_Host = re.compile(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$")

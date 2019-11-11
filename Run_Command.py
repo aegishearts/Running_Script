@@ -1,12 +1,9 @@
 from netmiko import ConnectHandler, NetMikoAuthenticationException, NetMikoTimeoutException
-import base64,requests,sys,re, time
+import time
 
 ### Ver1.0 ###
 
 ################################################################################
-#USER = 'XXXXXXXXXXXXX' ### Operator KSS account
-#PWENC = 'XXXXXXXXXXXX' ### base64 encode value with KSS password
-#PW = base64.b64decode(PWENC).decode('ascii') ### decode value with encoded KSS password
 
 Vendor_Code = {
         'cisco-nx':'cisco_nxos',
@@ -73,9 +70,8 @@ def Apply_Config(Hostname,VD,ConfigFile,USER,PW):
 			return False
 		try:
 	        	with ConnectHandler(**target) as net_connect:
-				#### Huawei have issue. Need to troubleshoot
 				print(ConfigFile)
-        			output = net_connect.send_config_from_file(ConfigFile)
+        		output = net_connect.send_config_from_file(ConfigFile)
 				print(output)
 				if VD == 'juniper':
 					net_connect.commit()
@@ -93,4 +89,4 @@ def Apply_Config(Hostname,VD,ConfigFile,USER,PW):
 			print('SSH Session is unstable!!! Try again after 3 seconds')
 			time.sleep(3)
 			CNT += 1
-			continue
+		continue
